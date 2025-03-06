@@ -1,3 +1,4 @@
+// redux-anecdotes/src/components/Notification.js
 const Notification = () => {
   const style = {
     border: 'solid',

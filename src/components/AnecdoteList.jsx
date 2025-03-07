@@ -1,6 +1,8 @@
 // redux-anecdotes/src/components/AnecdoteList.jsx
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
+
 
 const Anecdote = ({ anecdote, vote }) => {
   return (
@@ -15,11 +17,20 @@ const Anecdote = ({ anecdote, vote }) => {
 }
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.sort((a, b) => b.votes - a.votes))
+  
   const dispatch = useDispatch()
+  const anecdotes = useSelector(({ anecdotes, filter }) => {
+    const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes)
+    if (filter === 'ALL') return sortedAnecdotes
+    return sortedAnecdotes.filter(anecdote => 
+      anecdote.content.toLowerCase().includes(filter.toLowerCase())
+    )
+  })
 
   const vote = (id) => {
     dispatch(voteAnecdote(id))
+    dispatch(setNotification(`Voted for anecdote with id ${id}`))
+    setTimeout(() => dispatch(clearNotification()), 5000)
   }
 
   return (

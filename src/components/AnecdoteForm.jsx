@@ -12,13 +12,13 @@ const AnecdoteForm = () => {
     const content = event.target.querySelector('input').value
     event.target.querySelector('input').value = ''
     dispatch(createAnecdote(content))
-    dispatch(setNotification(`Created anecdote: ${content}`))
+    dispatch(setNotification(`Created new anecdote "${content}"`))
     setTimeout(() => dispatch(clearNotification()), 5000)
   }
 
   return (
     <div>
-      <h2>create new</h2>
+      <h2>Create a new anecdote</h2>
       <form onSubmit={addAnecdote}>
         <div><input /></div>
         <button type="submit">create</button>
